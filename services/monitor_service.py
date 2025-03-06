@@ -35,7 +35,7 @@ async def monitor_new_benefit_requests():
                 #validate_request_data(parsed_data)
 
                 # Save parsed data to DB
-                #save_benefit_request(parsed_data)
+                save_benefit_request(parsed_data)
 
                 # Mark email as seen
                 mark_email_as_read(mail, e_id)

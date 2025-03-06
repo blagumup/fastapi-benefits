@@ -1,32 +1,42 @@
-import asyncpg
+import psycopg2
 from config import get_settings
 
 settings = get_settings()
 
 class Database:
     def __init__(self):
-        self.pool = None
+        self.conn = None
+        self.cursor = None
 
-    async def connect(self):
-        """Establishes a connection pool to the database."""
-        self.pool = await asyncpg.create_pool(
-            dsn=f"postgresql://{settings.DB_USER}:{settings.DB_PASSWORD}@{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_NAME}"
+    def connect(self):
+        """Establish a synchronous connection to the database."""
+        self.conn = psycopg2.connect(
+            host=settings.DB_HOST,
+            port=settings.DB_PORT,
+            user=settings.DB_USER,
+            password=settings.DB_PASSWORD,
+            dbname=settings.DB_NAME
         )
+        self.cursor = self.conn.cursor()
+        print("✅ Connected to PostgreSQL")
 
-    async def disconnect(self):
-        """Closes the database connection."""
-        if self.pool:
-            await self.pool.close()
+    def disconnect(self):
+        """Close the database connection."""
+        if self.cursor:
+            self.cursor.close()
+        if self.conn:
+            self.conn.close()
+            print("❌ Disconnected from PostgreSQL")
 
-    async def execute(self, query: str, *args):
-        """Executes a query without returning data (INSERT, UPDATE, DELETE)."""
-        async with self.pool.acquire() as conn:
-            await conn.execute(query, *args)
+    def execute(self, query: str, *args):
+        """Executes INSERT, UPDATE, DELETE queries."""
+        self.cursor.execute(query, args)
+        self.conn.commit()
 
-    async def fetch(self, query: str, *args):
-        """Executes a query and returns results (SELECT)."""
-        async with self.pool.acquire() as conn:
-            return await conn.fetch(query, *args)
+    def fetch(self, query: str, *args):
+        """Executes SELECT queries and returns results."""
+        self.cursor.execute(query, args)
+        return self.cursor.fetchall()
 
 # Singleton instance
 db = Database()
