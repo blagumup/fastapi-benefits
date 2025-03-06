@@ -1,6 +1,6 @@
 import asyncio
 from fastapi import FastAPI
-from contextlib import contextmanager
+from contextlib import asynccontextmanager
 from services.monitor_service import monitor_new_benefit_requests
 from services.data_service import get_benefit_report
 from repositories.database import db
@@ -9,8 +9,8 @@ import debugpy  # Debugging support
 
 settings = get_settings()
 
-@contextmanager
-def lifespan(app: FastAPI):
+@asynccontextmanager
+async def lifespan(app: FastAPI):
     """Lifecycle management for FastAPI (startup/shutdown)"""
     if settings.DEBUG:
         print("Waiting for debugger to attach...")
