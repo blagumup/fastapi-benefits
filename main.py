@@ -1,7 +1,7 @@
 import asyncio
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
-from services.email_service import monitor_email
+from services.monitor_service import monitor_new_benefit_requests
 from config import get_settings
 import debugpy  # Debugging support
 
@@ -15,7 +15,7 @@ async def lifespan(app: FastAPI):
         debugpy.listen(("0.0.0.0", 5678))  # Debugger is listening
 
     print(f"Starting email monitoring every {settings.CHECK_INTERVAL} seconds...")
-    task = asyncio.create_task(monitor_email())  # Start background task
+    task = asyncio.create_task(monitor_new_benefit_requests())  # Start background task
     yield  # Keep app running
     task.cancel()
 
