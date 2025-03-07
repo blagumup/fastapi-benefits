@@ -1,43 +1,61 @@
+import json  # ✅ Import JSON module
 from typing import List, Dict
 from models.compensation_status import CompensationStatus
 from services.mail_service import send_clarification_letter
 
 REQUIRED_FIELDS = ["file_name", "category", "username", "document_number", "document_date", "document_sum", "document_currency", "account_number"]
 
-def validate_and_set_status(user_email, parsed_data: List[Dict]) -> List[Dict]:
+def validate_and_set_status(user_email, parsed_data: str) -> Dict:
     """
-    Validates parsed OCR data, updates each item with `status_id`, and returns the updated list.
-    
-    Status IDs:
-    - `1`: Data is complete ✅
-    - `2`: Data is missing required fields and needs clarification ❌
-    
-    Returns:
-    - Updated list with `status_id` added to each item.
-    """
-    invalid_records = []
+    Parses JSON string, validates parsed OCR data, updates each item with `status_id`, and returns the updated list.
 
-    for record in parsed_data:
+    Status IDs:
+    - `1`: Data is complete ✅ (OPEN)
+    - `2`: Data is missing required fields and needs clarification ❌ (WAITING_FOR_CLARIFICATION)
+
+    Returns:
+    - Updated dictionary with `status_id` added to each document.
+    """
+    try:
+        parsed_data = json.loads(parsed_data)  # ✅ Convert JSON string to dictionary
+    except json.JSONDecodeError as e:
+        print(f"❌ JSON Parsing Error: {e}")
+        return {}  # Return an empty dictionary if parsing fails
+
+    invalid_records = []
+    documents = parsed_data.get("documents", [])
+
+    if not isinstance(documents, list):  # ✅ Ensure `documents` is a list
+        print("❌ Error: `documents` is not a list! Data received:", documents)
+        return parsed_data  # Return original data without changes
+
+    for record in documents:
+        if not isinstance(record, dict):  # ✅ Ensure each document is a dictionary
+            print(f"❌ Error: Invalid record format! Expected dict but got: {type(record)} → {record}")
+            continue  # Skip invalid records
+
         missing_fields = [field for field in REQUIRED_FIELDS if not record.get(field)]
-        
+
         # Assign status based on missing fields
         if missing_fields:
-            record["status_id"] = CompensationStatus.WAITING_FOR_CLARIFICATION
+            record["status_id"] = CompensationStatus.WAITING_FOR_CLARIFICATION.value  # ✅ Use `.value`
             invalid_records.append({
                 "file_name": record["file_name"],
                 "missing_fields": missing_fields
             })
         else:
-            record["status_id"] = CompensationStatus.OPEN
+            record["status_id"] = CompensationStatus.OPEN.value  # ✅ Use `.value`
 
     if invalid_records:
-        clarification(invalid_records)
+        clarification(user_email, invalid_records)  # ✅ Fix incorrect argument passing
 
-    return parsed_data
+    return parsed_data  # ✅ Returns the updated dictionary
+
 
 def clarification(user_email, invalid_records):
     mail_body = generate_clarification_letter(invalid_records)
     send_clarification_letter(user_email, mail_body)
+
 
 def generate_clarification_letter(invalid_records: List[Dict]) -> str:
     """
@@ -64,4 +82,3 @@ def generate_clarification_letter(invalid_records: List[Dict]) -> str:
         "\n\nPlease reply with the required information so we can proceed with your request.\n\n"
         "Best regards,\nBenefits Processing Team"
     )
-

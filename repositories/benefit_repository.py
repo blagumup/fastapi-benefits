@@ -25,4 +25,4 @@ class BenefitRepository:
     
     @staticmethod
     def save_compensation_request(request_id, employee_id, email_subject, email_body, parsed_data):
-        db.execute("procedure_name", request_id, employee_id, email_subject, email_body, parsed_data)
+        db.execute("fn_upload_request_data", request_id, employee_id, email_subject, email_body, parsed_data)
