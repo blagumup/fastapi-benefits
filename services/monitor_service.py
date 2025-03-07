@@ -4,9 +4,9 @@ from services.mail_service import (
     connect_to_mailbox, fetch_unread_emails,
     extract_email_data, mark_email_as_read, close_mailbox
 )
+from services.data_service import save_compensation_request
 from services.open_ai_service import parse_with_gpt
 from services.ocr_service import process_files
-from models.ocr_processors import OCRProcessors
 from config import get_settings
 
 settings = get_settings()
@@ -33,14 +33,14 @@ async def monitor_new_benefit_requests():
                 # Extract text and entities from attachments using OCR
                 ocr_result = process_files(email_data)
 
-                # Use GPT to parse text
-                parsed_data = parse_with_gpt(ocr_result, email_data)
+                # Use GPT to parse text    email_subject: str, email_body: str, ocr_text: str
+                parsed_data = parse_with_gpt(email_data['subject'], email_data['body'], ocr_result)
                 print("Parsed Data:", parsed_data)
 
                 #validate_request_data(parsed_data)
 
                 # Save parsed data to DB
-                #save_benefit_request(parsed_data)
+                save_compensation_request(parsed_data, email_data)
 
                 # Mark email as seen
                 mark_email_as_read(mail, e_id)

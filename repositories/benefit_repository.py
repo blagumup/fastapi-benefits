@@ -20,5 +20,9 @@ class BenefitRepository:
     @staticmethod
     def get_benefit_by_id(benefit_id):
         """Retrieve a benefit by ID."""
-        query = "SELECT * FROM benefits WHERE id = %s;"
-        return db.fetch(query, benefit_id)
+        # query = "SELECT * FROM benefits WHERE id = %s;"
+        return db.fetch("procedure_name", benefit_id)
+    
+    @staticmethod
+    def save_compensation_request(request_id, employee_id, email_subject, email_body):
+        db.execute("procedure_name", request_id, employee_id, email_subject, email_body)
