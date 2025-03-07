@@ -31,6 +31,6 @@ def save_compensation_request(parsed_data, email_data):
     email_subject = email_data['subject']
     email_body = email_data['body']
 
-    BenefitRepository.save_compensation_request(request_id, employee_id, email_subject, email_body)
+    BenefitRepository.save_compensation_request(request_id, employee_id, email_subject, email_body, parsed_data)
 
     return request_id

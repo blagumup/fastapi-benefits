@@ -1,7 +1,5 @@
 import imaplib
-import email
 import base64
-from email import policy
 from models.supported_extensions import SupportedExtensions
 from config import get_settings
 
