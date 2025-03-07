@@ -2,7 +2,7 @@ import asyncio
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from services.monitor_service import monitor_new_benefit_requests
-from services.data_service import get_benefit_report
+from services.data_service import get_compensation_request, get_benefit_categories
 from repositories.database import db
 from config import get_settings
 import debugpy  # Debugging support
@@ -45,6 +45,11 @@ def root():
 # def get_benefits():
 #     return
 
-@app.get("/benefit-report/{report_id}")
-def get_report(report_id: int):
-    return get_benefit_report(report_id)
+@app.get("/compensation_request/{request_id}")
+def compensation_request_get(report_id: int):
+    return get_compensation_request(report_id)
+
+
+@app.get("/benefit_categories")
+def benefit_categories_get():
+    return get_benefit_categories()

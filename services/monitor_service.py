@@ -5,8 +5,7 @@ from services.mail_service import (
     extract_email_data, mark_email_as_read, close_mailbox
 )
 from services.open_ai_service import parse_with_gpt
-import base64
-from services.ocr_service import process_document_ocr
+from services.ocr_service import process_files
 from models.ocr_processors import OCRProcessors
 from config import get_settings
 
@@ -32,23 +31,16 @@ async def monitor_new_benefit_requests():
                 print("Extracted email:", email_data)
                 
                 # Extract text and entities from attachments using OCR
-                for attachment in email_data["attachments"]:
-                    attachment_content = base64.b64decode(attachment["content"])
-                    mime_type = attachment["mime_type"]
-                    # Using Custom Processor for OCR
-                    attachment_text, attachment_entities = process_document_ocr(processor_id=OCRProcessors.CUSTOM_PARSER.value, file=attachment_content, mime_type=mime_type)
-                    """
-                    ADD LOGIC FOR FURTHER PROCESSING OF ATTACHMENT TEXT AND ENTITIES
-                    """
+                ocr_result = process_files(email_data)
 
                 # Use GPT to parse text
-                parsed_data = parse_with_gpt(email_data)
+                parsed_data = parse_with_gpt(ocr_result, email_data)
                 print("Parsed Data:", parsed_data)
 
                 #validate_request_data(parsed_data)
 
                 # Save parsed data to DB
-                save_benefit_request(parsed_data)
+                #save_benefit_request(parsed_data)
 
                 # Mark email as seen
                 mark_email_as_read(mail, e_id)

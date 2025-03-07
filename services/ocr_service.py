@@ -1,13 +1,37 @@
+import base64
 from google.api_core.client_options import ClientOptions
 from google.cloud import documentai
 from config import get_settings
 from typing import List
+
+from models.ocr_processors import OCRProcessors
 
 SETTINGS = get_settings()
 
 class UnsupportedFileTypeError(Exception):
     """Custom exception for unsupported file types."""
     pass
+
+
+def process_files(email_data):
+    """Processes email attachments using OCR and returns extracted data."""
+    extracted_data = []
+
+    for attachment in email_data["attachments"]:
+        attachment_content = base64.b64decode(attachment["content"])
+        mime_type = attachment["mime_type"]
+        file_name = attachment["filename"]
+        # Using Custom Processor for OCR
+        attachment_text, attachment_entities = process_document_ocr(processor_id=OCRProcessors.CUSTOM_PARSER.value, file=attachment_content, mime_type=mime_type)
+
+        print(f"Processed: {file_name}")
+        print(f"Extracted Text: {attachment_text}")
+        print(f"Extracted Entities: {attachment_entities}")
+
+        # Append extracted info as a tuple
+        extracted_data.append((file_name, attachment_text, attachment_entities))
+
+    return extracted_data
 
 def process_document_ocr(processor_id: str, file: str, mime_type: str) -> None:
     """
