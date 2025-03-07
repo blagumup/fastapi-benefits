@@ -60,6 +60,7 @@ BEGIN
         request_id,
         file_name,
         category_name,
+        status_id,
         document_number,
         document_date,
         address,
@@ -122,7 +123,16 @@ BEGIN
     )
     SELECT 
         attachment_id,
-        record_id, file_name, document_date, document_number, address, document_sum, document_currency, account_number, additional_info, document_data
+        record_id,
+        file_name,
+        document_date,
+        document_number,
+        address,
+        document_sum,
+        document_currency,
+        account_number,
+        additional_info,
+        document_data
     FROM temp_parsed_documents;
 
     IF EXISTS (
