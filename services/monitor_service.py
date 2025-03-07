@@ -25,7 +25,7 @@ async def monitor_new_benefit_requests():
             for e_id in email_ids:
                 status, data = mail.fetch(e_id, "(RFC822)")
                 raw_email = data[0][1]
-                parsed_email = message_from_bytes(raw_email, policy=policy.default)  # ✅ FIXED
+                parsed_email = message_from_bytes(raw_email, policy=policy.default)
 
                 # Extract structured email data
                 email_data = extract_email_data(parsed_email)
@@ -51,4 +51,4 @@ async def monitor_new_benefit_requests():
         except Exception as e:
             print("Error while checking email:", e)
 
-        await asyncio.sleep(settings.CHECK_INTERVAL)  # Use config value
+        await asyncio.sleep(settings.CHECK_INTERVAL)
