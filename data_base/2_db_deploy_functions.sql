@@ -128,7 +128,7 @@ BEGIN
         p_request_id,
         doc->>'file_name',
         doc->>'category',
-		doc ->> 'status_id',
+		(doc ->> 'status_id')::INT,
         doc->>'document_number',
         (doc->>'document_date')::TIMESTAMP,
         doc->>'address',
