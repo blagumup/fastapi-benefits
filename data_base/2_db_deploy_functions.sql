@@ -137,7 +137,7 @@ BEGIN
         doc->>'account_number',
         doc->>'additional_info',
         doc
-    FROM jsonb_array_elements(p_document_data->'documents') AS doc;
+    FROM json_array_elements(p_document_data->'documents') AS doc;
 
     -- Update category_id
     UPDATE temp_parsed_documents tpd
