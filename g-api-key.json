@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "benefit-automation",
+  "private_key_id": "42bf4753d8f44a6b88fc593771d9921f40038fbe",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDSkKHCAxuxmOVu\n1ByjjDsnKcdFVkZzC3Bis4slEtj9MwhSeK3c4RxmBTg6qOprkHA03ATDpmn8MM/x\nzVu9EWxolfQhur2a92JBDyu6kqUtMfkyz9ldTiOhW5ZiAWKyEHQwGQbmGqDddm9o\nsPgJJ8N8rtIZM9S/6RfoUtDBe3JHFhAEIuKxpzp1Piz0MRAmv30PT69HpZ1P4E5p\ngkD0D03Vw4SIJuVY3ZFClXw+68IEWXqhhF9t39KdlOcXjbpQYOlJNPLhsc/S0uYb\naLkWd/eG2fgk8sBXfJjyKhiY9ytOEDvCkB5VIFTBkW7ZJl5mGIdFnN1jol0HH1ks\nGm+P08UVAgMBAAECggEAMe6UPUKpbYr5VTe9dtcJK/dPRtT3rc5Xn0A+TdNTW2+f\nmJb/e7JyHos8U0S9GjbNNOu7wX2UAna8yPVOvN4F3CM7GkiDL91cElt7nimqO7Zv\nBqqdO/AMqPXkCmeTtPAL7V/x79z+qqWsM6JLnzgrtkRqlAljeQLYZYJF+KvCZLKb\nXrLwqL2lnzj9l9cvDx2Yuy/rCmeSE8D07COZx0BDdtU547G43/UJDpIlQ7pwYmMq\nH49jlj5sSVsMM4wv0v7pWR9lWGVp5ZBDflnBOhzaDV/6kUYqN3amJ6gxHl4khjog\nZCvyNLuzqTD2r9dXo/qDsprakeMSLrxVlgIGf4SQQQKBgQD1fMt9IpvHRXUGHXyw\naBsgMrccFw17TDQaWEO26Yu6Ap71NtyCMGqz2CRQm+uKq4iPIPNgyvT5xPbUs+Ca\nBFhopqNuuFgILCfVp9JkuHhU8kjf5xxzxfhQNU0E9GG2atWuuoj3pRcex7wYkOpb\nOygPHCYHB7QNB23cP3XIis0gBQKBgQDblP32GB/SDeRAieWQDcPxcp4KQ73lgVuT\nV9IRnNbI9rIYu6CYZw/2pEpUtHM+ATS8Nss5BWxQB1xvnT3QofmSmyS9gYQLLCSI\nLi8rPMWqWgXWLrQHMS/73yuSeO1fVd3yz3SjUwRYTnWEp9c1eDncJf7ye2Y/fxmb\nEENj3ljt0QKBgC9u0Ia6RC1Jv2XSFsCjLPKYugbEcYdsXvjkKxlRoPzs+rfYxNym\n7EcZsVKd/fIKWNWHAV+nd5Q3OZY5t2ErC8YUxKllFyVlGsFOrvllJ2MKeYhByJ6a\nFvOwiNQ3QBYWKHmdc0+eZ4w7/Z0lixLbqE7bGoHrPB/0WobfACwinaXdAoGAZDlA\nJYhjVcQDb7XBMxwlWFpBalv7G/sMKleGSYW1v2piZcmWBpnb/m6Egt8OTrnMMTAt\nV+xywKBrf4JcyZJ00IbBoUGxXEwcrI+v9eM6MYP/cABHKZU42pTFVYieh8owkPhB\nu55TuF6vYwocv4oNlr88+755L/g6Xr1wlO/S1VECgYEArzXd01kREJ9Xvn1SHNlf\n8YZymF8U6JmDiqw/ws4ffhAPelnQa4qMQsYrbb93QyW/eUkrJa+zTRX23/QVb10A\ns+35b59PHjJnkAOQf7Ss9z34TI5v5zs6LL1cOsfVHnN3fGTWWhzZg2tDs2u3Qk6m\niIistZMtrXSmf50MCeSXXgQ=\n-----END PRIVATE KEY-----\n",
+  "client_email": "benefit-automation@benefit-automation.iam.gserviceaccount.com",
+  "client_id": "106240635784311511011",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/benefit-automation%40benefit-automation.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

@@ -18,6 +18,10 @@ class Settings(BaseSettings):
     DB_USER: str
     DB_PASSWORD: str
     DB_NAME: str
+    OCR_PROJECT_ID: str
+    OCR_LOCATION: str
+    OCR_PROCESSOR_VERSION: str
+    GOOGLE_APPLICATION_CREDENTIALS: str
 
     class Config:
         env_file = ".env"
