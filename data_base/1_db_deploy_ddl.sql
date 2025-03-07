@@ -31,8 +31,27 @@ CREATE TABLE benefit_category (
     category_name VARCHAR(100) UNIQUE NOT NULL,
     description TEXT,
     cover_amount MONEY,
-    cover_size NUMERIC(1,2)
+    cover_size NUMERIC(3,2)
 );
+
+INSERT INTO benefit_category (
+        category_name,
+        cover_amount,
+        cover_size
+    ) VALUES
+    ('Medical Insurance personal', 100, 1.00),
+    ('Professional development (incl. English courses)', 100, 1.00),
+    ('English courses (internal / external)', 100, 1.00),
+    ('Spanish courses', 100, 1.00),
+    ('Business / Client communication', 100, 1.00),
+    ('Sports program', 50, 0.50),
+    ('Psychotherapy', 50, 0.50),
+    ('Massages, physiotherapy, kinesiotherapy, etc.', 50, 0.50),
+    ('Hobby', 50, 0.50),
+    ('SPA complex / Facial, body cosmetology, etc', 50, 0.50),
+    ('Vitamin complex / Nutritionist consultation', 50, 0.50),
+    ('Pet care (veterinary clinic, classes with cynologist, groomings, pet store)', 50, 0.50),
+    ('Family medical insurance', 50, 0.50);
 
 CREATE TABLE employee_package_set (
     employee_id UUID REFERENCES employee(employee_id),
