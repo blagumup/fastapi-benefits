@@ -28,13 +28,15 @@ class Database:
             self.conn.close()
             print("❌ Disconnected from PostgreSQL")
 
-    def execute(self, query: str, *args):
-        """Executes INSERT, UPDATE, DELETE queries."""
+    def execute(self, function_name: str, *args):
+        """Executes a stored function (INSERT, UPDATE, DELETE) without returning results."""
+        query = f"SELECT {function_name}({', '.join(['%s'] * len(args))});"
         self.cursor.execute(query, args)
         self.conn.commit()
 
-    def fetch(self, query: str, *args):
-        """Executes SELECT queries and returns results."""
+    def fetch(self, function_name: str, *args):
+        """Calls a stored function that returns results (SELECT)."""
+        query = f"SELECT * FROM {function_name}({', '.join(['%s'] * len(args))});"
         self.cursor.execute(query, args)
         return self.cursor.fetchall()
 
