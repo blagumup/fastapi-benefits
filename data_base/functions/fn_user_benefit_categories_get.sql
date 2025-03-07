@@ -2,12 +2,12 @@ CREATE OR REPLACE FUNCTION fn_user_benefit_categories_get(
     IN p_employee_id UUID
 )
 RETURNS TABLE (
-    employee_id UUID
+    employee_id UUID,
     category_id INT,
     category_name VARCHAR(100),
     category_description TEXT,
     cover_amount MONEY,
-    cover_size NUMERIC(1,2)
+    cover_size NUMERIC(3,2)
 ) AS $$
 BEGIN
     RETURN QUERY
