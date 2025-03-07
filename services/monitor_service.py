@@ -4,6 +4,7 @@ from services.mail_service import (
     connect_to_mailbox, fetch_unread_emails,
     extract_email_data, mark_email_as_read, close_mailbox
 )
+from services.validate_service import validate_and_set_status
 from services.data_service import save_compensation_request
 from services.open_ai_service import parse_with_gpt
 from services.ocr_service import process_files
@@ -37,7 +38,8 @@ async def monitor_new_benefit_requests():
                 parsed_data = parse_with_gpt(email_data['subject'], email_data['body'], ocr_result)
                 print("Parsed Data:", parsed_data)
 
-                #validate_request_data(parsed_data)
+                # Validate parsed result
+                parsed_data = validate_and_set_status(email_data['from'], parsed_data)
 
                 # Save parsed data to DB
                 save_compensation_request(parsed_data, email_data)

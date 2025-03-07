@@ -38,6 +38,7 @@ def get_system_prompt(categories: list[str]):
         {category_list}
 
         - Extract structured fields based on the detected category for each document.
+        - From one document you must extract only 1 unique field. If you find more - save this to additional_info field
         **Always return JSON output** in the format:
         
         ```json
@@ -63,7 +64,7 @@ def get_system_prompt(categories: list[str]):
                 "address": "Extracted Address (if available)",
                 "document_sum": "Extracted document sum",
                 "document_currency": "Extracted document currency",
-                "account_number": "Extracted account number",
+                "account_number": "",
                 "additional_info": "Short description of the benefit claim"
             }}
         ]

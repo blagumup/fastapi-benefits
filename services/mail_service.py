@@ -57,6 +57,11 @@ def extract_email_data(parsed_email):
 
     return email_data
 
+def send_clarification_letter(user_email, mail_body):
+    """Send letter to clarify information. Now use mock (print)"""
+    print("Imitate sending clarification letter")
+    print(mail_body)
+
 def mark_email_as_read(mail, email_id):
     """Marks an email as read."""
     mail.store(email_id, "+FLAGS", "\\Seen")
