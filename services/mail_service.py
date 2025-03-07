@@ -2,6 +2,7 @@ import imaplib
 import email
 import base64
 from email import policy
+from models.supported_extensions import SupportedExtensions
 from config import get_settings
 
 settings = get_settings()
@@ -44,7 +45,8 @@ def extract_email_data(parsed_email):
                 if filename:
                     file_data = part.get_payload(decode=True)
                     encoded_file = base64.b64encode(file_data).decode()  # Encode for easy transport
-                    email_data["attachments"].append({"filename": filename, "content": encoded_file})
+                    mime_type = _get_mime_type(filename)
+                    email_data["attachments"].append({"filename": filename, "content": encoded_file, "mime_type": mime_type})
 
     # If plain text not found, try extracting from HTML
     if not email_data["body"]:
@@ -62,3 +64,14 @@ def mark_email_as_read(mail, email_id):
 def close_mailbox(mail):
     """Logs out and closes the mailbox connection."""
     mail.logout()
+
+def _get_mime_type(filename):
+    file_extension = filename.split('.', 1)[-1]
+        
+    try:
+        mime_type = SupportedExtensions[file_extension.upper()].value
+        print(f"Detected MIME type: {mime_type}")
+    except:
+        print(f"Unsupported file type: {file_extension}")
+        mime_type = None
+    return mime_type
