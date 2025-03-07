@@ -14,3 +14,5 @@ class BenefitCategory(Enum):
     VITAMIN_COMPLEX = "Vitamin complex / Nutritionist consultation"
     PET_CARE = "Pet care (veterinary clinic, classes with cynologist, groomings, pet store)"
     FAMILY_MEDICAL_INSURANCE = "Family medical insurance"
+
+    UNDEFINED = "Undefined"
