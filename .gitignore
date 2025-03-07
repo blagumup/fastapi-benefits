@@ -2,10 +2,12 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
+# Ignore VS Code settings and virtual environment
 /.vs
 /.vscode
 /venv
-/__pycache__
-/services/__pycache__
-repositories/__pycache__/benefit_repository.cpython-311.pyc
-repositories/__pycache__/database.cpython-311.pyc
+
+# Ignore all __pycache__ directories and compiled Python files
+__pycache__/
+**/__pycache__/
+*.pyc
