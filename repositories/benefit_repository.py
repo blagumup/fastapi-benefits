@@ -14,8 +14,8 @@ class BenefitRepository:
     @staticmethod
     def get_all_benefits():
         """Retrieve all benefits."""
-        query = "SELECT * FROM benefits;"
-        return db.fetch(query)
+        # return db.fetch('fn_user_benefit_categories_get', '31f66b01-d59b-4a7e-8ea7-5df283aa55fb')
+        return db.fetch('fn_benefit_categories_get_all')
 
     @staticmethod
     def get_benefit_by_id(benefit_id):
