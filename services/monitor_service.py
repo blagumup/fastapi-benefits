@@ -29,12 +29,11 @@ async def monitor_new_benefit_requests():
 
                 # Extract structured email data
                 email_data = extract_email_data(parsed_email)
-                print("Extracted email:", email_data)
                 
                 # Extract text and entities from attachments using OCR
                 ocr_result = process_files(email_data)
 
-                # Use GPT to parse text    email_subject: str, email_body: str, ocr_text: str
+                # Use GPT to parse text
                 parsed_data = parse_with_gpt(email_data['subject'], email_data['body'], ocr_result)
                 print("Parsed Data:", parsed_data)
 
@@ -42,7 +41,8 @@ async def monitor_new_benefit_requests():
                 parsed_data = validate_and_set_status(email_data['from'], parsed_data)
 
                 # Save parsed data to DB
-                save_compensation_request(parsed_data, email_data)
+                request_id = save_compensation_request(parsed_data, email_data)
+                print(f"Request with id {request_id} succesfully saved")
 
                 # Mark email as seen
                 mark_email_as_read(mail, e_id)

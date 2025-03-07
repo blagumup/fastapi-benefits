@@ -1,3 +1,5 @@
+import base64
+import os
 from uuid import uuid4
 from services.utils import get_user_id_by_email
 from repositories.benefit_repository import BenefitRepository
@@ -26,11 +28,35 @@ def get_employee(employee_id: str):
     return EmployeeRepository.get_employee_by_id(employee_id)
 
 def save_compensation_request(parsed_data, email_data):
-    request_id = uuid4()
+    request_id = str(uuid4())
     employee_id = get_user_id_by_email()
     email_subject = email_data['subject']
     email_body = email_data['body']
+    parsed_data_str = str(parsed_data)
 
-    BenefitRepository.save_compensation_request(request_id, employee_id, email_subject, email_body, parsed_data)
+    BenefitRepository.save_compensation_request(request_id, employee_id, email_subject, email_body, parsed_data_str)
+
+    save_attachments_locally(request_id, email_data["attachments"])
 
     return request_id
+
+def save_attachments_locally(request_id, attachments):
+    """
+    Saves email attachments to `attachments/{request_id}/` directory.
+
+    Args:
+        request_id (UUID): Unique ID for the compensation request.
+        attachments (list[dict]): List of attachments with 'filename' and 'content'.
+    """
+    request_folder = os.path.join("attachments", str(request_id))  # noqa: F821
+    os.makedirs(request_folder, exist_ok=True)  # ✅ Ensure directory exists
+
+    for attachment in attachments:
+        file_path = os.path.join(request_folder, attachment["filename"])
+        file_content = base64.b64decode(attachment["content"])  # Decode Base64
+
+        # ✅ Save file
+        with open(file_path, "wb") as file:
+            file.write(file_content)
+
+        print(f"✅ Saved attachment: {file_path}")
