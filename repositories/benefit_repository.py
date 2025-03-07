@@ -24,5 +24,5 @@ class BenefitRepository:
         return db.fetch("procedure_name", benefit_id)
     
     @staticmethod
-    def save_compensation_request(request_id, employee_id, email_subject, email_body):
-        db.execute("procedure_name", request_id, employee_id, email_subject, email_body)
+    def save_compensation_request(request_id, employee_id, email_subject, email_body, parsed_data):
+        db.execute("procedure_name", request_id, employee_id, email_subject, email_body, parsed_data)
