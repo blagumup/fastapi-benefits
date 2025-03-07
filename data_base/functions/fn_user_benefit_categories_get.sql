@@ -1,10 +1,10 @@
 CREATE OR REPLACE FUNCTION fn_user_benefit_categories_get(
-    IN employee_id UUID
+    IN p_employee_id UUID
 )
 RETURNS TABLE (
     employee_id UUID
-    category_id UUID,
-    category_name TEXT,
+    category_id INT,
+    category_name VARCHAR(100),
     category_description TEXT,
     cover_amount MONEY,
     cover_size NUMERIC(1,2)
@@ -21,7 +21,7 @@ BEGIN
     FROM employee_package_set eps
     JOIN benefit_category bc
         ON bc.category_id = eps.category_id
-        AND eps.employee_id = employee_id
+        AND eps.employee_id = p_employee_id
     ;
 END;
 $$ LANGUAGE plpgsql;

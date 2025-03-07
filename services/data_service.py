@@ -10,4 +10,4 @@ def get_compensation_request():
     return
 
 def get_benefit_categories():
-    return
+    return BenefitRepository.get_all_benefits()
