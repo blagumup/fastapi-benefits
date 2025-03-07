@@ -1,4 +1,4 @@
-DROP FUNCTION IS EXISTS fn_benefit_categories_get_all();
+DROP FUNCTION IF EXISTS fn_benefit_categories_get_all();
 
 CREATE OR REPLACE FUNCTION fn_benefit_categories_get_all()
 RETURNS SETOF benefit_category AS $$
@@ -10,7 +10,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 --==================
-DROP FUNCTION IS EXISTS fn_compensation_requests_get_all();
+DROP FUNCTION IF EXISTS fn_compensation_requests_get_all();
 
 CREATE OR REPLACE FUNCTION fn_compensation_requests_get_all()
 RETURNS SETOF compensation_request_records AS $$
@@ -23,7 +23,7 @@ $$ LANGUAGE plpgsql;
 
 
 --==================
-DROP FUNCTION IS EXISTS fn_employee_get_by_id();
+DROP FUNCTION IF EXISTS fn_employee_get_by_id();
 
 CREATE OR REPLACE FUNCTION fn_employee_get_by_id(
     IN p_employee_id UUID
@@ -38,7 +38,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 --==================
-DROP FUNCTION IS EXISTS fn_employees_get_all();
+DROP FUNCTION IF EXISTS fn_employees_get_all();
 
 CREATE OR REPLACE FUNCTION fn_employees_get_all()
 RETURNS SETOF employee AS $$
@@ -50,7 +50,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 --==================
-DROP FUNCTION IS EXISTS fn_upload_request_data(p_request_id, p_employee_id, p_email_body, p_email_subject, p_document_data);
+DROP FUNCTION IF EXISTS fn_upload_request_data(p_request_id, p_employee_id, p_email_body, p_email_subject, p_document_data);
 
 CREATE OR REPLACE FUNCTION fn_upload_request_data(
     p_request_id UUID,
@@ -60,8 +60,14 @@ CREATE OR REPLACE FUNCTION fn_upload_request_data(
     p_document_data JSON
 ) RETURNS VOID AS $$
 DECLARE 
-    date_current TIMESTAMP := NOW()
+    date_current TIMESTAMP := NOW();
+    waiting_for_clarification_status_id INT;
+    open_status_id INT;
 BEGIN
+    
+    waiting_for_clarification_status_id := (SELECT status_id FROM compensation_status WHERE status_name = 'waiting_for_clarification');
+    open_status_id := (SELECT status_id FROM compensation_status WHERE status_name = 'open');
+
     -- Insert mployee_compensation_request
     INSERT INTO employee_compensation_request (
         request_id, 
@@ -72,12 +78,13 @@ BEGIN
         compensation_sum_usd,
         email_subject,
         email_body
-    ) VALUES (
+    ) 
+    VALUES (
         p_request_id,
         p_employee_id,
         date_current,
         date_current,
-        NULL,
+        open_status_id,
         NULL,
         p_email_subject,
         p_email_body
@@ -167,14 +174,28 @@ BEGIN
         additional_info,
         document_data
     )
-    SELECT attachment_id, record_id, file_name, document_date, document_number, address, document_sum, document_currency, account_number, additional_info, document_data
+    SELECT 
+        attachment_id,
+        record_id, file_name, document_date, document_number, address, document_sum, document_currency, account_number, additional_info, document_data
     FROM temp_parsed_documents;
+
+    IF EXISTS (
+                SELECT 1 
+                FROM compensation_request_records 
+                WHERE request_id = p_request_id 
+                    AND status_id = waiting_for_clarification_status_id
+                )
+        THEN
+            UPDATE employee_compensation_request
+                SET status_id = waiting_for_clarification_status_id
+            WHERE request_id = p_request_id;
+    END IF;
 
 END;
 $$ LANGUAGE plpgsql;
 
 --==================
-DROP FUNCTION IS EXISTS fn_user_benefit_categories_get(p_employee_id);
+DROP FUNCTION IF EXISTS fn_user_benefit_categories_get(p_employee_id);
 
 CREATE OR REPLACE FUNCTION fn_user_benefit_categories_get(
     IN p_employee_id UUID
