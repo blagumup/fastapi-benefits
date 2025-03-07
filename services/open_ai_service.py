@@ -42,6 +42,7 @@ def get_system_prompt(categories: list[str]):
         **Always return JSON output** in the format:
         
         ```json
+        "documents":
         [
             {{
                 "file_name": "File Name",
