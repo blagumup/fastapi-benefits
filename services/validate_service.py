@@ -1,4 +1,5 @@
 from typing import List, Dict
+from models.compensation_status import CompensationStatus
 from services.mail_service import send_clarification_letter
 
 REQUIRED_FIELDS = ["file_name", "category", "username", "document_number", "document_date", "document_sum", "document_currency", "account_number"]
@@ -21,13 +22,13 @@ def validate_and_set_status(user_email, parsed_data: List[Dict]) -> List[Dict]:
         
         # Assign status based on missing fields
         if missing_fields:
-            record["status_id"] = 2  # ❌ Needs clarification
+            record["status_id"] = CompensationStatus.WAITING_FOR_CLARIFICATION
             invalid_records.append({
                 "file_name": record["file_name"],
                 "missing_fields": missing_fields
             })
         else:
-            record["status_id"] = 1  # ✅ Data is complete
+            record["status_id"] = CompensationStatus.OPEN
 
     if invalid_records:
         clarification(invalid_records)
