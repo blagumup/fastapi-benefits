@@ -1,4 +1,5 @@
 import base64
+import json
 import os
 from uuid import uuid4
 from services.utils import get_user_id_by_email
@@ -32,7 +33,9 @@ def save_compensation_request(parsed_data, email_data):
     employee_id = get_user_id_by_email()
     email_subject = email_data['subject']
     email_body = email_data['body']
-    parsed_data_str = str(parsed_data)
+    parsed_data_str = json.dumps(parsed_data, ensure_ascii=False)
+
+    print(f"parsed_data_str: {parsed_data_str}")
 
     BenefitRepository.save_compensation_request(request_id, employee_id, email_subject, email_body, parsed_data_str)
 

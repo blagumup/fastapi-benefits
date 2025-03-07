@@ -1,5 +1,6 @@
 import json  # ✅ Import JSON module
 from typing import List, Dict
+from datetime import datetime
 from models.compensation_status import CompensationStatus
 from services.mail_service import send_clarification_letter
 
@@ -7,7 +8,7 @@ REQUIRED_FIELDS = ["file_name", "category", "username", "document_number", "docu
 
 def validate_and_set_status(user_email, parsed_data: str) -> Dict:
     """
-    Parses JSON string, validates parsed OCR data, updates each item with `status_id`, and returns the updated list.
+    Parses JSON string, validates parsed OCR data, updates each item with `status_id`, and converts date format.
 
     Status IDs:
     - `1`: Data is complete ✅ (OPEN)
@@ -34,23 +35,26 @@ def validate_and_set_status(user_email, parsed_data: str) -> Dict:
             print(f"❌ Error: Invalid record format! Expected dict but got: {type(record)} → {record}")
             continue  # Skip invalid records
 
+        # ✅ Convert date format before validation
+        if "document_date" in record and record["document_date"]:
+            record["document_date"] = convert_date_format(record["document_date"])
+
         missing_fields = [field for field in REQUIRED_FIELDS if not record.get(field)]
 
         # Assign status based on missing fields
         if missing_fields:
-            record["status_id"] = CompensationStatus.WAITING_FOR_CLARIFICATION.value  # ✅ Use `.value`
+            record["status_id"] = CompensationStatus.WAITING_FOR_CLARIFICATION.value
             invalid_records.append({
                 "file_name": record["file_name"],
                 "missing_fields": missing_fields
             })
         else:
-            record["status_id"] = CompensationStatus.OPEN.value  # ✅ Use `.value`
+            record["status_id"] = CompensationStatus.OPEN.value
 
     if invalid_records:
-        clarification(user_email, invalid_records)  # ✅ Fix incorrect argument passing
+        clarification(user_email, invalid_records)
 
-    return parsed_data  # ✅ Returns the updated dictionary
-
+    return parsed_data  # ✅ Returns updated dictionary
 
 def clarification(user_email, invalid_records):
     mail_body = generate_clarification_letter(invalid_records)
@@ -82,3 +86,23 @@ def generate_clarification_letter(invalid_records: List[Dict]) -> str:
         "\n\nPlease reply with the required information so we can proceed with your request.\n\n"
         "Best regards,\nBenefits Processing Team"
     )
+
+
+def convert_date_format(date_str):
+    """
+    Converts date from 'DD.MM.YYYY' to 'YYYY-MM-DD' for PostgreSQL.
+
+    Args:
+        date_str (str): Date in format 'DD.MM.YYYY'
+    
+    Returns:
+        str: Date in format 'YYYY-MM-DD' or None if invalid.
+    """
+    if not date_str:
+        return None  # ✅ Handle missing dates safely
+
+    try:
+        return datetime.strptime(date_str, "%d.%m.%Y").strftime("%Y-%m-%d")  # ✅ Convert format
+    except ValueError:
+        print(f"❌ Invalid date format: {date_str}")
+        return None  # ✅ Skip invalid dates
