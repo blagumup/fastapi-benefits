@@ -114,6 +114,7 @@ BEGIN
         request_id,
         file_name,
         category_name,
+        status_id,
         document_number,
         document_date,
         address,
