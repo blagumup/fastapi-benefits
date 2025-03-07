@@ -1,4 +1,5 @@
 from repositories.benefit_repository import BenefitRepository
+from repositories.employees_repository import EmployeeRepository
 
 def save_benefit_request():
     return
@@ -10,4 +11,10 @@ def get_compensation_request():
     return
 
 def get_benefit_categories():
-    return
+    return BenefitRepository.get_all_benefits()
+
+def get_employees():
+    return EmployeeRepository.get_all_employees()
+
+def get_employee(employee_id: str):
+    return EmployeeRepository.get_employee_by_id(employee_id)

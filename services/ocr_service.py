@@ -2,7 +2,6 @@ import base64
 from google.api_core.client_options import ClientOptions
 from google.cloud import documentai
 from config import get_settings
-from typing import List
 
 from models.ocr_processors import OCRProcessors
 
