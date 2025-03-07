@@ -1,5 +1,6 @@
 from repositories.benefit_repository import BenefitRepository
 from repositories.employees_repository import EmployeeRepository
+from repositories.compensation_repository import CompensationRepository
 
 def save_benefit_request():
     return
@@ -9,6 +10,9 @@ def get_benefit_report(report_id: int):
 
 def get_compensation_request():
     return
+
+def get_compensation_requests():
+    return CompensationRepository.get_all_compensation_requests()
 
 def get_benefit_categories():
     return BenefitRepository.get_all_benefits()
