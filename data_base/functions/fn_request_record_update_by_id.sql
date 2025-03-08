@@ -29,7 +29,7 @@ BEGIN
 				WHEN 'waiting_for_clarification' = ANY(status_list) THEN 'waiting_for_clarification'
 				WHEN status_list <@ ARRAY['approved', 'declined', 'cancelled'] THEN 'processed'
 			END AS new_status
-		FROM request_statuses
+		FROM record_statuses
 	)
 	UPDATE employee_compensation_request ecr
 		SET status_id = cs.status_id
