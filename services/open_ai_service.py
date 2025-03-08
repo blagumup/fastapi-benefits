@@ -39,6 +39,7 @@ def get_system_prompt(categories: list[str]):
 
         - Extract structured fields based on the detected category for each document.
         - From one document you must extract only 1 unique field. If you find more - save this to additional_info field
+        - Document Currency must be in ISO 4217 (грн - UAH, euro - EUR, etc..)
         **Always return JSON output** in the format:
         
         ```json
