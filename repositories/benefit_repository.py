@@ -23,6 +23,3 @@ class BenefitRepository:
         # query = "SELECT * FROM benefits WHERE id = %s;"
         return db.fetch("procedure_name", benefit_id)
     
-    @staticmethod
-    def save_compensation_request(request_id, employee_id, email_subject, email_body, parsed_data):
-        db.execute("fn_upload_request_data", request_id, employee_id, email_subject, email_body, parsed_data)
