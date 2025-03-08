@@ -33,6 +33,10 @@ class CompensationRepository:
         db.execute("fn_upload_request_data", request_id, employee_id, email_subject, email_body, parsed_data)
 
     @staticmethod
+    def update_record_status(record_id: str, status_id):
+        db.execute("fn_request_record_update_by_id", record_id, status_id)
+
+    @staticmethod
     def get_compensation_request_by_id(request_id: str):
         """Retrieve a compensation request record by ID."""
         result = db.fetch('fn_request_records_get_by_id', request_id)

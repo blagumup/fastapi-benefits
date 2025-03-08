@@ -2,8 +2,9 @@ import asyncio
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
+from models.change_status_request import ChangeStatusRequest
 from services.monitor_service import monitor_new_benefit_requests
-from services.data_service import get_compensation_request, get_benefit_categories, get_employees, get_employee, get_compensation_requests
+from services.data_service import get_compensation_request, get_benefit_categories, get_employees, get_employee, get_compensation_requests, update_record_status
 from repositories.database import db
 from config import get_settings
 import debugpy  # Debugging support
@@ -71,3 +72,8 @@ def employees_get():
 @app.get("/employee/{employee_id}")
 def employee_get(employee_id: str):
     return get_employee(employee_id)
+
+
+@app.put("/update_record_status")
+def update_status(request: ChangeStatusRequest):
+    update_record_status(request)
