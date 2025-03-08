@@ -22,6 +22,7 @@ class Settings(BaseSettings):
     OCR_LOCATION: str
     OCR_PROCESSOR_VERSION: str
     GOOGLE_APPLICATION_CREDENTIALS: str
+    NBU_API_URL: str
 
     class Config:
         env_file = ".env"
