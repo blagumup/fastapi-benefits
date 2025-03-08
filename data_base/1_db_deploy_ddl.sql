@@ -34,25 +34,6 @@ CREATE TABLE benefit_category (
     cover_size NUMERIC(3,2)
 );
 
-INSERT INTO benefit_category (
-        category_name,
-        cover_amount,
-        cover_size
-    ) VALUES
-    ('Medical Insurance personal', 100, 1.00),
-    ('Professional development (incl. English courses)', 100, 1.00),
-    ('English courses (internal / external)', 100, 1.00),
-    ('Spanish courses', 100, 1.00),
-    ('Business / Client communication', 100, 1.00),
-    ('Sports program', 50, 0.50),
-    ('Psychotherapy', 50, 0.50),
-    ('Massages, physiotherapy, kinesiotherapy, etc.', 50, 0.50),
-    ('Hobby', 50, 0.50),
-    ('SPA complex / Facial, body cosmetology, etc', 50, 0.50),
-    ('Vitamin complex / Nutritionist consultation', 50, 0.50),
-    ('Pet care (veterinary clinic, classes with cynologist, groomings, pet store)', 50, 0.50),
-    ('Family medical insurance', 50, 0.50);
-
 CREATE TABLE employee_package_set (
     employee_id UUID REFERENCES employee(employee_id),
     category_id INT REFERENCES benefit_category(category_id),
@@ -64,18 +45,6 @@ CREATE TABLE compensation_status (
     status_name VARCHAR(50) UNIQUE NOT NULL,
     is_global BOOLEAN NOT NULL
 );
-
-INSERT INTO compensation_status (
-        status_name,
-        is_global
-    ) VALUES
-        ('open', TRUE),
-        ('approved', FALSE),
-        ('waiting_for_clarification', TRUE),
-        ('declined', FALSE),
-        ('cancelled', FALSE),
-        ('exceeded_limit', FALSE),
-        ('processed', TRUE);
 
 CREATE TABLE employee_compensation_request (
     request_id UUID PRIMARY KEY,
@@ -112,3 +81,36 @@ CREATE TABLE compensation_request_attachments (
     additional_info TEXT,
     document_data JSON
 );
+
+--==========================Seed data insert=========
+
+INSERT INTO benefit_category (
+        category_name,
+        cover_amount,
+        cover_size
+    ) VALUES
+    ('Medical Insurance personal', 100, 1.00),
+    ('Professional development (incl. English courses)', 100, 1.00),
+    ('English courses (internal / external)', 100, 1.00),
+    ('Spanish courses', 100, 1.00),
+    ('Business / Client communication', 100, 1.00),
+    ('Sports program', 50, 0.50),
+    ('Psychotherapy', 50, 0.50),
+    ('Massages, physiotherapy, kinesiotherapy, etc.', 50, 0.50),
+    ('Hobby', 50, 0.50),
+    ('SPA complex / Facial, body cosmetology, etc', 50, 0.50),
+    ('Vitamin complex / Nutritionist consultation', 50, 0.50),
+    ('Pet care (veterinary clinic, classes with cynologist, groomings, pet store)', 50, 0.50),
+    ('Family medical insurance', 50, 0.50);
+
+INSERT INTO compensation_status (
+        status_name,
+        is_global
+    ) VALUES
+        ('open', TRUE),
+        ('approved', FALSE),
+        ('waiting_for_clarification', TRUE),
+        ('declined', FALSE),
+        ('cancelled', FALSE),
+        ('exceeded_limit', FALSE),
+        ('processed', TRUE);
