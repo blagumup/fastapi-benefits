@@ -13,8 +13,8 @@ def save_benefit_request():
 def get_benefit_report(report_id: int):
     return BenefitRepository.get_benefit_by_id(report_id)
 
-def get_compensation_request():
-    return
+def get_compensation_request(request_id: int):
+    return CompensationRepository.get_compensation_request_by_id(request_id)
 
 def get_compensation_requests():
     return CompensationRepository.get_all_compensation_requests()
@@ -37,7 +37,7 @@ def save_compensation_request(parsed_data, email_data):
 
     print(f"parsed_data_str: {parsed_data_str}")
 
-    BenefitRepository.save_compensation_request(request_id, employee_id, email_subject, email_body, parsed_data_str)
+    CompensationRepository.save_compensation_request(request_id, employee_id, email_subject, email_body, parsed_data_str)
 
     save_attachments_locally(request_id, email_data["attachments"])
 

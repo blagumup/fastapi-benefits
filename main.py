@@ -1,5 +1,6 @@
 import asyncio
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from services.monitor_service import monitor_new_benefit_requests
 from services.data_service import get_compensation_request, get_benefit_categories, get_employees, get_employee, get_compensation_requests
@@ -34,23 +35,26 @@ app = FastAPI(
     lifespan=lifespan
 )
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
+
 @app.get("/")
 def root():
     return {"message": "FastAPI is running with email monitoring!"}
 
 
-
-
-# @app.get("/benefits")
-# def get_benefits():
-#     return
-
 @app.get('/compensation_requests')
 def compensation_requests_get():
     return get_compensation_requests()
 
+
 @app.get("/compensation_request/{request_id}")
-def compensation_request_get(report_id: int):
+def compensation_request_get(report_id: str):
     return get_compensation_request(report_id)
 
 
