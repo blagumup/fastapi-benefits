@@ -337,7 +337,7 @@ BEGIN
     WITH record_statuses AS (
         SELECT 
             cr.request_id,
-            ARRAY_AGG(DISTINCT cs.status_name) AS status_list
+            ARRAY_AGG(DISTINCT cs.status_name::text) AS status_list
         FROM compensation_request_records cr
         JOIN compensation_status cs ON cr.status_id = cs.status_id
         WHERE cr.request_id = v_request_id
@@ -358,7 +358,7 @@ BEGIN
     SET status_id = cs.status_id
     FROM status_updates su
     JOIN compensation_status cs 
-        ON su.new_status = cs.status_name
+        ON su.new_status = cs.status_name::text
     WHERE ecr.request_id = su.request_id
     AND su.new_status IS NOT NULL; 
 
