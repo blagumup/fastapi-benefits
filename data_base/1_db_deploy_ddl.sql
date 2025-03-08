@@ -72,6 +72,7 @@ CREATE TABLE compensation_request_attachments (
     record_id UUID REFERENCES compensation_request_records(record_id),
     file_name TEXT,
     file_path VARCHAR(256),
+    created_date TIMESTAMP DEFAULT NOW(),
     document_date TIMESTAMP,
     document_number VARCHAR(50),
     address TEXT,

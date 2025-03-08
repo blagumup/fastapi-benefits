@@ -30,8 +30,8 @@ BEGIN
 		cs.status_name AS request_status,
 		null AS benefit_program,
 		null AS location,
-		ecr.compensation_sum_usd,
-		0 AS total_used,
+		ecr.compensation_sum_usd::money as compensation_sum_usd,
+		null::money AS total_used,
 		ecr.email_subject,
 		ecr.email_body
 	FROM employee_compensation_request ecr
