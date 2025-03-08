@@ -1,6 +1,7 @@
 from models.employee import Employee
 from repositories.database import db
 
+#TODO need to use convert model methods in prod version
 class EmployeeRepository:
     @staticmethod
     def get_all_employees():

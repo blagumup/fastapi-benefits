@@ -4,10 +4,10 @@ from uuid import UUID
 
 class CompensationRequest(BaseModel):
     id: UUID
-    requestDate: str  # Converted from TIMESTAMP
+    requestDate: str
     email: str
-    fullName: Optional[str] = None  # Nullable
+    fullName: Optional[str] = None
     requestStatus: str
-    benefitProgram: Optional[str] = None  # Nullable
-    location: Optional[str] = None  # Nullable
+    benefitProgram: Optional[str] = None
+    location: Optional[str] = None
     totalUsed: float  # Converted from MONEY
