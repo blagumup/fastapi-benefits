@@ -1,20 +1,20 @@
-CREATE OR REPLACE FUNCTION fn_request_record_get_by_id(p_request_id UUID)
+CREATE OR REPLACE FUNCTION fn_request_records_get_by_id(p_request_id UUID)
 RETURNS TABLE (
 	request_id UUID,
 	record_id UUID,
 	transactiondate TIMESTAMP,
 	category_id INT,
-	category TEXT,
+	category VARCHAR(100),
 	status_id INT,
 	full_name TEXT,
 	recipient TEXT,
 	recipe_amount_local MONEY,
-	recipe_currency TEXT,
+	recipe_currency varchar(10),
 	recuipe_amount_usd MONEY,
-	recipe_status TEXT,
+	recipe_status varchar(10),
 	attachment_id UUID,
 	file_name TEXT,
-	file_path TEXT
+	file_path varchar(256)
 )	
 AS $$
 BEGIN
@@ -39,6 +39,7 @@ BEGIN
 	FROM compensation_request_records crr 
 	join compensation_request_attachments cra  	
 		ON crr.record_id  = cra.record_id
+		AND crr.request_id = p_request_id
 	join benefit_category bc 
 		on bc.category_id = crr.category_id
 	join compensation_status cs 

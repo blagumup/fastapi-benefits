@@ -263,9 +263,9 @@ END;
 $$ LANGUAGE plpgsql;
 
 --==================
-DROP FUNCTION IF EXISTS fn_request_record_get_by_id(UUID);
+DROP FUNCTION IF EXISTS fn_request_records_get_by_id(UUID);
 
-CREATE OR REPLACE FUNCTION fn_request_record_get_by_id(p_request_id UUID)
+CREATE OR REPLACE FUNCTION fn_request_records_get_by_id(p_request_id UUID)
 RETURNS TABLE (
 	request_id UUID,
 	record_id UUID,
@@ -306,6 +306,7 @@ BEGIN
 	FROM compensation_request_records crr 
 	join compensation_request_attachments cra  	
 		ON crr.record_id  = cra.record_id
+		AND crr.request_id = p_request_id
 	join benefit_category bc 
 		on bc.category_id = crr.category_id
 	join compensation_status cs 
