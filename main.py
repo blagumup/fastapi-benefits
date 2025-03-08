@@ -67,6 +67,7 @@ def benefit_categories_get():
 def employees_get():
     return get_employees()
 
+
 @app.get("/employee/{employee_id}")
 def employee_get(employee_id: str):
     return get_employee(employee_id)
