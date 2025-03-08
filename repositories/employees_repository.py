@@ -5,7 +5,12 @@ class EmployeeRepository:
     @staticmethod
     def get_all_employees():
         """Retrieve all employees."""
-        return db.fetch('fn_employees_get_all')
+        result = db.fetch('fn_employees_get_all')
+
+        if not result:
+            return []
+
+        return [Employee(employee_id=row[0], employee_email=row[1]) for row in result]
 
     @staticmethod
     def get_employee_by_id(employee_id):
@@ -13,8 +18,7 @@ class EmployeeRepository:
         result = db.fetch('fn_employee_get_by_id', employee_id)
 
         if not result or len(result) == 0:
-            return None  # ✅ Return None if no employee found
+            return None
 
-        # ✅ Convert DB row to Employee model
         row = result[0]
         return Employee(employee_id=row[0], employee_email=row[1])
