@@ -22,10 +22,4 @@ class BenefitRepository:
             for row in result
         ]
 
-        return formatted_results
-
-    @staticmethod
-    def get_benefit_by_id(benefit_id):
-        """Retrieve a benefit by ID."""
-        return db.fetch("procedure_name", benefit_id)
-    
+        return formatted_results    
