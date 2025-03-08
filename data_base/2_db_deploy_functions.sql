@@ -37,6 +37,7 @@ BEGIN
 		ecr.request_id,
 		ecr.employee_id,
 		null AS full_name,
+		e.email,
 		ecr.created_date AS request_date,
 		ecr.updated_date,
 		cs.status_id,
@@ -46,8 +47,7 @@ BEGIN
 		ecr.compensation_sum_usd,
 		null AS total_used,
 		ecr.email_subject,
-		ecr.email_body,
-		e.email
+		ecr.email_body
 	FROM employee_compensation_request ecr
 	JOIN employee e
 		ON e.employee_id = ecr.employee_id
