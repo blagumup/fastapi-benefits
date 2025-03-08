@@ -114,3 +114,10 @@ INSERT INTO compensation_status (
         ('cancelled', FALSE),
         ('exceeded_limit', FALSE),
         ('processed', TRUE);
+
+INSERT INTO employee (
+    employee_id,
+    email
+) VALUES
+    ('736df964-a7a6-4991-899a-914e8e9d791a', 'andrii.mykytenko@trinetix.com'),
+    ('0bbd7f71-68bd-43df-9128-aa4f60069823', 'employee2@example.com');
