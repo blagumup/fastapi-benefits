@@ -8,9 +8,6 @@ from repositories.employees_repository import EmployeeRepository
 from repositories.compensation_repository import CompensationRepository
 
 
-def get_benefit_report(report_id: int):
-    return BenefitRepository.get_benefit_by_id(report_id)
-
 def get_compensation_request(request_id: int):
     return CompensationRepository.get_compensation_request_by_id(request_id)
 
@@ -37,6 +34,7 @@ def save_compensation_request(parsed_data, email_data):
 
     CompensationRepository.save_compensation_request(request_id, employee_id, email_subject, email_body, parsed_data_str)
 
+    #TODO in prod need to use cloud file hosting (S3, etc.)
     save_attachments_locally(request_id, email_data["attachments"])
 
     return request_id
